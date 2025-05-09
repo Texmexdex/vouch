@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Voucher Customizer - DZ PowerWashing llc.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Lato:wght@400;700&family=Open+Sans:wght@400;700&family=Playfair+Display:wght@700&family=Pacifico&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        /* General body styling for the page */
+        body {
+            font-family: 'Open Sans', sans-serif; /* Changed default font */
+            margin: 0;
+            padding: 20px;
+            background-color: #e9eef2; /* Slightly softer background */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px; /* Increased gap */
+            justify-content: space-around;
+            color: #333;
+        }
+
+        /* Container for all control inputs */
+        .controls-container {
+            background-color: #ffffff;
+            padding: 30px; /* Increased padding */
+            border-radius: 12px; /* More pronounced rounding */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Softer shadow */
+            width: 100%;
+            max-width: 500px; /* Slightly wider */
+            order: 1;
+            box-sizing: border-box;
+        }
+        .controls-container h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        /* Container for the voucher preview */
+        .voucher-preview-container {
+            order: 2;
+            width: 100%;
+            max-width: 750px; /* Slightly wider */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            box-sizing: border-box;
+            padding-top: 10px; /* Ensure shadow is visible */
+        }
+
+        /* The voucher itself */
+        .voucher {
+            background-color: #ffffff;
+            border: 2px solid #007bff; /* Default to a theme color border */
+            padding: 35px; /* Increased padding */
+            width: 100%;
+            aspect-ratio: 2 / 1;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* Default medium shadow */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px; /* More pronounced rounding */
+            transition: background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, background-image 0.3s ease;
+        }
+
+        /* Header section of the voucher */
+        .voucher-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #d0d0d0; /* Subtle separator */
+            padding-bottom: 15px;
+        }
+
+        .voucher-logo-placeholder {
+            font-size: 14px;
+            color: #888;
+            border: 2px dashed #007bff; /* Theme color dashed border */
+            padding: 15px;
+            margin-bottom: 15px;
+            display: inline-block;
+            min-width: 160px;
+            min-height: 45px;
+            line-height: 45px;
+            font-style: italic;
+        }
+
+        .voucher-business-name {
+            font-family: 'Playfair Display', serif; /* More elegant font for business name */
+            font-size: 30px; /* Increased size */
+            font-weight: 700;
+            color: #1a2533; /* Darker, more sophisticated color */
+            margin-bottom: 5px;
+        }
+
+        .voucher-tagline {
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            color: #4a5568; /* Softer color */
+            font-style: italic;
+        }
+
+        /* Main offer section styling */
+        .voucher-main-offer {
+            text-align: center;
+            margin: 20px 0; /* Adjusted margin */
+            padding: 15px 0;
+            background-color: rgba(0, 123, 255, 0.03); /* Very subtle background highlight for offer */
+            border-radius: 6px;
+        }
+
+        .voucher-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px; /* Increased size */
+            font-weight: 700; /* Bolder */
+            color: #0056b3;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px; /* Added letter spacing */
+        }
+
+        .voucher-service-description {
+            font-family: 'Roboto', sans-serif;
+            font-size: 32px; /* Increased size */
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .voucher-value {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px; /* Increased size */
+            font-weight: 700; /* Bolder */
+            color: #218838; /* Darker green */
+            margin-bottom: 10px;
+        }
+        .voucher-service-fineprint {
+            font-size: 12px;
+            color: #5a6268;
+        }
+
+        /* Details section (terms, redemption) */
+        .voucher-details {
+            font-size: 13px;
+            color: #495057;
+            line-height: 1.7; /* Increased line height */
+            padding: 10px;
+            border-top: 1px dashed #d0d0d0;
+            margin-top: 15px;
+        }
+        .voucher-details strong {
+            color: #343a40;
+            font-weight: 700; /* Bolder */
+        }
+
+        /* Footer section of the voucher */
+        .voucher-footer {
+            font-size: 11px;
+            color: #6c757d;
+            text-align: center;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .voucher-contact, .voucher-donated-by, .voucher-website {
+            margin-bottom: 6px;
+        }
+
+        .voucher-expiration, .voucher-code {
+            font-weight: bold;
+            display: block; /* Make them take full width for better spacing */
+            margin-top: 5px;
+        }
+
+        /* Styling for form elements in controls */
+        label {
+            display: block;
+            margin-top: 18px; /* Increased margin */
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e; /* Darker label color */
+            font-size: 15px;
+        }
+
+        input[type="text"],
+        input[type="color"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px; /* Increased padding */
+            margin-bottom: 15px;
+            border: 1px solid #bcccdc; /* Softer border */
+            border-radius: 6px; /* More rounding */
+            box-sizing: border-box;
+            font-size: 14px;
+            font-family: 'Open Sans', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        input[type="text"]:focus,
+        input[type="color"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            outline: none;
+        }
+        input[type="color"] {
+            min-height: 40px; /* Ensure color pickers are a decent size */
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Styling for the print button */
+        button#printButton {
+            background-image: linear-gradient(to right, #007bff, #0056b3); /* Gradient button */
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 30px;
+            display: block;
+            width: 100%;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+        }
+        button#printButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,123,255,0.4);
+        }
+        button#printButton:active {
+            transform: translateY(0px);
+        }
+
+
+        /* Styling for print media */
+        @media print {
+            body {
+                padding: 0; margin: 0; background-color: #fff !important;
+                -webkit-print-color-adjust: exact; color-adjust: exact;
+            }
+            .controls-container, button#printButton { display: none !important; }
+            .voucher-preview-container { width: 100%; max-width: none; margin: 0; padding: 0; box-shadow: none; }
+            .voucher {
+                width: 90%; margin: 5mm auto; border: 1px solid #000 !important;
+                box-shadow: none; page-break-inside: avoid; aspect-ratio: auto;
+                height: 130mm; /* Slightly taller for print */
+                border-radius: 0 !important;
+                background-image: none !important; /* Remove gradients/images for print */
+                background-color: #ffffff !important;
+            }
+            .voucher-business-name, .voucher-title, .voucher-value, .voucher-service-description,
+            .voucher-tagline, .voucher-details, .voucher-details strong, .voucher-footer, .voucher-contact,
+            .voucher-donated-by, .voucher-service-fineprint, .voucher-logo-placeholder {
+                color: #000000 !important;
+            }
+            .voucher-logo-placeholder { border-color: #000000 !important; }
+            .voucher-header, .voucher-main-offer, .voucher-details, .voucher-footer {
+                 border-color: #000000 !important;
+                 background-color: transparent !important; /* Remove offer highlight */
+            }
+        }
+
+        /* Grouping for options in the control panel */
+        .option-group {
+            border: 1px solid #e0e7ef; /* Softer border */
+            padding: 15px 20px 20px 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+            background-color: #f8f9fa; /* Lighter group background */
+        }
+        .option-group h3 {
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-family: 'Montserrat', sans-serif;
+            color: #0056b3;
+            border-bottom: 1px solid #d1d9e6;
+            padding-bottom: 10px;
+        }
+        small {
+            font-size: 12px;
+            color: #6c757d;
+            display: block;
+            margin-top: -10px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .color-picker-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .color-picker-group label {
+            margin-top: 0;
+            margin-bottom: 0;
+            flex-basis: 120px; /* Give labels a consistent width */
+        }
+        .color-picker-group input[type="color"] {
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="controls-container">
+        <h2>Voucher Customizer Pro</h2>
+        <p>Design your professional voucher. Changes are reflected live in the preview.</p>
+
+        <div class="option-group">
+            <h3>Business Identity</h3>
+            <label for="ctrlBusinessName">Business Name:</label>
+            <input type="text" id="ctrlBusinessName" value="DZ PowerWashing llc.">
+
+            <label for="ctrlTagline">Tagline (Optional):</label>
+            <input type="text" id="ctrlTagline" value="Sparkling Clean, Every Time!">
+
+            <label for="ctrlLogoPlaceholder">Logo Placeholder Text:</label>
+            <input type="text" id="ctrlLogoPlaceholder" value="DZ PowerWashing">
+            <small>For an actual logo: edit the HTML to replace the placeholder `div` with an `&lt;img src="your_logo.png"&gt;` tag.</small>
+        </div>
+
+        <div class="option-group">
+            <h3>Offer Details</h3>
+            <label for="ctrlVoucherTitle">Voucher Title (e.g., Premium Service Voucher):</label>
+            <input type="text" id="ctrlVoucherTitle" value="PREMIUM SERVICE VOUCHER">
+
+            <label for="ctrlServiceDescription">Main Service Description:</label>
+            <input type="text" id="ctrlServiceDescription" value="$250 Deluxe Concrete Driveway Wash">
+
+            <label for="ctrlValue">Value Statement (e.g., A $250 Value!):</label>
+            <input type="text" id="ctrlValue" value="A $250.00 Value!">
+
+            <label for="ctrlServiceFineprint">Service Fine Print (e.g., size limits):</label>
+            <input type="text" id="ctrlServiceFineprint" value="Valid for residential concrete driveways up to 1200 sq ft. Includes algae and mildew treatment.">
+        </div>
+
+        <div class="option-group">
+            <h3>Redemption & Terms</h3>
+            <label for="ctrlRedemptionInstructions">Redemption Instructions:</label>
+            <textarea id="ctrlRedemptionInstructions">To schedule your Deluxe Driveway Wash, please call us at [Your Phone Number] or email [Your Email Address]. Kindly mention this voucher when booking.</textarea>
+
+            <label for="ctrlTermsConditions">Additional Terms & Conditions (one per line):</label>
+            <textarea id="ctrlTermsConditions">Service available within a 25-mile radius of [Your City].
+Not convertible to cash or other services.
+Cannot be combined with other promotions or discounts.
+Booking is essential and subject to availability.
+One voucher per household.</textarea>
+
+            <label for="ctrlExpirationDate">Expiration Date:</label>
+            <input type="text" id="ctrlExpirationDate" value="Expires: June 30, 2026">
+
+            <label for="ctrlVoucherCode">Voucher Code (Optional):</label>
+            <input type="text" id="ctrlVoucherCode" placeholder="e.g., AUCTIONPROMO-001">
+        </div>
+
+        <div class="option-group">
+            <h3>Contact & Donation</h3>
+            <label for="ctrlContactInfo">Contact Details (Phone | Email):</label>
+            <input type="text" id="ctrlContactInfo" value="Call: (555) PRO-WASH | Email: info@dzpowerwashing.pro">
+
+            <label for="ctrlWebsiteSocial">Website / Social Media (Optional):</label>
+            <input type="text" id="ctrlWebsiteSocial" value="www.dzpowerwashing.pro | @DZPowerWash">
+
+            <label for="ctrlDonatedBy">"Donated By" Text:</label>
+            <input type="text" id="ctrlDonatedBy" value="Generously Donated by DZ PowerWashing llc. for the [Name of Charity/Event]">
+        </div>
+
+        <div class="option-group">
+            <h3>Voucher Styling</h3>
+            <label for="ctrlFontFamily">Overall Font Family:</label>
+            <select id="ctrlFontFamily">
+                <option value="'Open Sans', sans-serif">Open Sans (Clean & Modern)</option>
+                <option value="'Roboto', sans-serif">Roboto (Google Standard)</option>
+                <option value="'Lato', sans-serif">Lato (Elegant Sans-Serif)</option>
+                <option value="'Montserrat', sans-serif">Montserrat (Stylish & Geometric)</option>
+                <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI (Windows Default)</option>
+                <option value="'Playfair Display', serif">Playfair Display (Elegant Serif - Good for Headings)</option>
+                <option value="'Lobster', cursive">Lobster (Script/Cursive - Use Sparingly)</option>
+                <option value="'Pacifico', cursive">Pacifico (Fun Script - Use Sparingly)</option>
+                <option value="'Arial', Helvetica, sans-serif">Arial (Classic Sans-Serif)</option>
+                <option value="'Times New Roman', Times, serif">Times New Roman (Classic Serif)</option>
+            </select>
+
+            <label for="ctrlPrimaryColor">Voucher Title Color:</label>
+            <input type="color" id="ctrlPrimaryColor" value="#0056b3">
+
+            <label for="ctrlAccentColor">Value Statement Color:</label>
+            <input type="color" id="ctrlAccentColor" value="#218838">
+
+            <label for="ctrlBorderStyle">Border Style:</label>
+            <select id="ctrlBorderStyle">
+                <option value="solid">Solid</option>
+                <option value="dashed">Dashed</option>
+                <option value="dotted">Dotted</option>
+                <option value="double">Double (needs thicker border width)</option>
+            </select>
+            <label for="ctrlBorderWidth">Border Width (pixels):</label>
+            <input type="number" id="ctrlBorderWidth" value="2" min="0" max="10">
+            <label for="ctrlBorderColor">Voucher Border Color:</label>
+            <input type="color" id="ctrlBorderColor" value="#007bff">
+
+
+            <label for="ctrlBoxShadow">Voucher Shadow Intensity:</label>
+            <select id="ctrlBoxShadow">
+                <option value="none">None</option>
+                <option value="0 4px 10px rgba(0,0,0,0.07)">Subtle</option>
+                <option value="0 8px 25px rgba(0,0,0,0.1)" selected>Medium</option>
+                <option value="0 12px 35px rgba(0,0,0,0.15)">Pronounced</option>
+            </select>
+
+            <h4>Background Options:</h4>
+            <label for="ctrlBackgroundColor">Solid Background Color:</label>
+            <input type="color" id="ctrlBackgroundColor" value="#ffffff">
+            
+            <p style="margin-top:15px; margin-bottom:5px; font-weight:600;">Or Linear Gradient Background:</p>
+            <div class="color-picker-group">
+                <label for="ctrlGradientStartColor">Gradient Start:</label>
+                <input type="color" id="ctrlGradientStartColor" value="#ffffff">
+            </div>
+            <div class="color-picker-group">
+                <label for="ctrlGradientEndColor">Gradient End:</label>
+                <input type="color" id="ctrlGradientEndColor" value="#e9eef2">
+            </div>
+            <label for="ctrlUseGradient">Use Gradient Background:</label>
+            <select id="ctrlUseGradient">
+                <option value="no">No (Use Solid Color)</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <label for="ctrlBackgroundImage">Background Image URL (Optional, overrides color/gradient):</label>
+            <input type="text" id="ctrlBackgroundImage" placeholder="e.g., https://www.transparenttextures.com/patterns/subtle-carbon.png">
+            <small>Use very subtle, light texture images for best results. Ensure text remains readable.</small>
+        </div>
+
+        <button id="printButton">Print Voucher</button>
+    </div>
+
+    <div class="voucher-preview-container">
+        <div class="voucher" id="voucherPreview">
+            <div class="voucher-header">
+                <div class="voucher-logo-placeholder" id="outLogoPlaceholder">DZ PowerWashing</div>
+                <div class="voucher-business-name" id="outBusinessName">DZ PowerWashing llc.</div>
+                <div class="voucher-tagline" id="outTagline">Sparkling Clean, Every Time!</div>
+            </div>
+
+            <div class="voucher-main-offer">
+                <div class="voucher-title" id="outVoucherTitle">PREMIUM SERVICE VOUCHER</div>
+                <div class="voucher-service-description" id="outServiceDescription">$250 Deluxe Concrete Driveway Wash</div>
+                <div class="voucher-value" id="outValue">A $250.00 Value!</div>
+                <div class="voucher-service-fineprint" id="outServiceFineprint">Valid for residential concrete driveways up to 1200 sq ft. Includes algae and mildew treatment.</div>
+            </div>
+
+            <div class="voucher-details">
+                <strong>Redemption:</strong> <span id="outRedemptionInstructions">To schedule your Deluxe Driveway Wash, please call us at [Your Phone Number] or email [Your Email Address]. Kindly mention this voucher when booking.</span><br>
+                <strong>Terms:</strong> <span id="outTermsConditions">Service available within a 25-mile radius of [Your City].<br>Not convertible to cash or other services.<br>Cannot be combined with other promotions or discounts.<br>Booking is essential and subject to availability.<br>One voucher per household.</span><br>
+                <span class="voucher-expiration" id="outExpirationDate">Expires: June 30, 2026</span>
+                <span class="voucher-code" id="outVoucherCode"></span>
+            </div>
+
+            <div class="voucher-footer">
+                <div class="voucher-contact" id="outContactInfo">Call: (555) PRO-WASH | Email: info@dzpowerwashing.pro</div>
+                <div class="voucher-website" id="outWebsiteSocial">www.dzpowerwashing.pro | @DZPowerWash</div>
+                <div class="voucher-donated-by" id="outDonatedBy">Generously Donated by DZ PowerWashing llc. for the [Name of Charity/Event]</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Array to map control input IDs to their corresponding output element IDs on the voucher
+            const inputsConfig = [
+                { id: 'ctrlBusinessName', outputId: 'outBusinessName' },
+                { id: 'ctrlTagline', outputId: 'outTagline' },
+                { id: 'ctrlLogoPlaceholder', outputId: 'outLogoPlaceholder' },
+                { id: 'ctrlVoucherTitle', outputId: 'outVoucherTitle' },
+                { id: 'ctrlServiceDescription', outputId: 'outServiceDescription' },
+                { id: 'ctrlValue', outputId: 'outValue' },
+                { id: 'ctrlServiceFineprint', outputId: 'outServiceFineprint' },
+                { id: 'ctrlRedemptionInstructions', outputId: 'outRedemptionInstructions', isHtml: true },
+                { id: 'ctrlTermsConditions', outputId: 'outTermsConditions', isHtml: true },
+                { id: 'ctrlExpirationDate', outputId: 'outExpirationDate' },
+                { id: 'ctrlVoucherCode', outputId: 'outVoucherCode', prefix: 'Voucher Code: ' },
+                { id: 'ctrlContactInfo', outputId: 'outContactInfo' },
+                { id: 'ctrlWebsiteSocial', outputId: 'outWebsiteSocial' },
+                { id: 'ctrlDonatedBy', outputId: 'outDonatedBy' }
+            ];
+
+            // Function to update the voucher preview based on input changes
+            function updatePreview(inputElement, outputElement, prefix = '', isHtml = false) {
+                let value = inputElement.value;
+                if (outputElement) {
+                    if (isHtml) {
+                        outputElement.innerHTML = value.replace(/\n/g, '<br>');
+                    } else {
+                        outputElement.textContent = value;
+                    }
+                    if (prefix) {
+                        outputElement.textContent = value.trim() !== '' ? prefix + value : '';
+                    }
+                }
+            }
+
+            // Attach event listeners to all configured input fields
+            inputsConfig.forEach(config => {
+                const inputElement = document.getElementById(config.id);
+                const outputElement = document.getElementById(config.outputId);
+                if (inputElement) {
+                    updatePreview(inputElement, outputElement, config.prefix, config.isHtml);
+                    inputElement.addEventListener('input', function () {
+                        updatePreview(this, outputElement, config.prefix, config.isHtml);
+                    });
+                }
+            });
+
+            // --- Styling Controls ---
+            const voucherPreviewElement = document.getElementById('voucherPreview');
+            const voucherTitleElement = document.getElementById('outVoucherTitle');
+            const voucherValueElement = document.getElementById('outValue');
+            const logoPlaceholderElement = document.getElementById('outLogoPlaceholder');
+
+            // Font Family Control
+            const fontFamilyControl = document.getElementById('ctrlFontFamily');
+            fontFamilyControl.addEventListener('change', function() {
+                voucherPreviewElement.style.fontFamily = this.value;
+            });
+            voucherPreviewElement.style.fontFamily = fontFamilyControl.value;
+
+            // Voucher Title Color Control
+            const primaryColorControl = document.getElementById('ctrlPrimaryColor');
+            primaryColorControl.addEventListener('input', function() {
+                voucherTitleElement.style.color = this.value;
+            });
+            voucherTitleElement.style.color = primaryColorControl.value;
+
+            // Value Statement Color Control
+            const accentColorControl = document.getElementById('ctrlAccentColor');
+            accentColorControl.addEventListener('input', function() {
+                voucherValueElement.style.color = this.value;
+            });
+            voucherValueElement.style.color = accentColorControl.value;
+
+            // Border Controls
+            const borderStyleControl = document.getElementById('ctrlBorderStyle');
+            const borderWidthControl = document.getElementById('ctrlBorderWidth');
+            const borderColorControl = document.getElementById('ctrlBorderColor');
+
+            function updateVoucherBorder() {
+                const style = borderStyleControl.value;
+                const width = borderWidthControl.value + 'px';
+                const color = borderColorControl.value;
+                voucherPreviewElement.style.border = `${width} ${style} ${color}`;
+                if (logoPlaceholderElement) { // Also style logo placeholder border to match theme
+                    logoPlaceholderElement.style.borderColor = color;
+                }
+            }
+            [borderStyleControl, borderWidthControl, borderColorControl].forEach(control => {
+                control.addEventListener('input', updateVoucherBorder);
+                control.addEventListener('change', updateVoucherBorder); // For select
+            });
+            updateVoucherBorder(); // Initial call
+
+            // Box Shadow Control
+            const boxShadowControl = document.getElementById('ctrlBoxShadow');
+            boxShadowControl.addEventListener('change', function() {
+                voucherPreviewElement.style.boxShadow = this.value === 'none' ? 'none' : this.value;
+            });
+            voucherPreviewElement.style.boxShadow = boxShadowControl.value === 'none' ? 'none' : boxShadowControl.value;
+
+
+            // Background Options (Solid, Gradient, Image)
+            const backgroundColorControl = document.getElementById('ctrlBackgroundColor');
+            const gradientStartColorControl = document.getElementById('ctrlGradientStartColor');
+            const gradientEndColorControl = document.getElementById('ctrlGradientEndColor');
+            const useGradientControl = document.getElementById('ctrlUseGradient');
+            const backgroundImageControl = document.getElementById('ctrlBackgroundImage');
+
+            function updateVoucherBackground() {
+                const bgImage = backgroundImageControl.value.trim();
+                if (bgImage !== '') {
+                    voucherPreviewElement.style.backgroundImage = `url('${bgImage}')`;
+                    voucherPreviewElement.style.backgroundSize = 'cover';
+                    voucherPreviewElement.style.backgroundPosition = 'center';
+                    voucherPreviewElement.style.backgroundRepeat = 'no-repeat';
+                } else if (useGradientControl.value === 'yes') {
+                    voucherPreviewElement.style.backgroundImage = `linear-gradient(to bottom, ${gradientStartColorControl.value}, ${gradientEndColorControl.value})`;
+                } else {
+                    voucherPreviewElement.style.backgroundImage = 'none';
+                    voucherPreviewElement.style.backgroundColor = backgroundColorControl.value;
+                }
+            }
+            [backgroundColorControl, gradientStartColorControl, gradientEndColorControl, useGradientControl, backgroundImageControl].forEach(control => {
+                control.addEventListener('input', updateVoucherBackground);
+                control.addEventListener('change', updateVoucherBackground); // For select
+            });
+            updateVoucherBackground(); // Initial call
+
+
+            // Print Button Functionality
+            const printButton = document.getElementById('printButton');
+            if (printButton) {
+                printButton.addEventListener('click', function() {
+                    window.print();
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
